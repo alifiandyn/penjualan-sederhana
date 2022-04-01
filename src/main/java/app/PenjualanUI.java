@@ -71,7 +71,7 @@ public class PenjualanUI extends javax.swing.JFrame {
         txtTotalHarga = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblBarang = new javax.swing.JTable();
-        label1 = new java.awt.Label();
+        labelHeader = new java.awt.Label();
         button1 = new java.awt.Button();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -178,13 +178,14 @@ public class PenjualanUI extends javax.swing.JFrame {
                     .addComponent(jLabel4)
                     .addComponent(txtHarga))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(txtQty, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtSatuan)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel5)
-                        .addComponent(txtTotalHarga)))
+                        .addComponent(txtTotalHarga))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel2)
+                        .addComponent(txtQty, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtSatuan)))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
@@ -205,8 +206,8 @@ public class PenjualanUI extends javax.swing.JFrame {
         ));
         jScrollPane2.setViewportView(tblBarang);
 
-        label1.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
-        label1.setText("Penjualan Barang Dagang");
+        labelHeader.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
+        labelHeader.setText("Penjualan Barang Dagang");
 
         button1.setLabel("Simpan Penjualan");
         button1.addActionListener(new java.awt.event.ActionListener() {
@@ -221,7 +222,7 @@ public class PenjualanUI extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(141, 141, 141)
-                .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(labelHeader, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
@@ -238,7 +239,7 @@ public class PenjualanUI extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(21, 21, 21)
-                .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(labelHeader, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -253,8 +254,11 @@ public class PenjualanUI extends javax.swing.JFrame {
 
     private void hapusBarang(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hapusBarang
         // TODO add your handling code here:
+        int row = tblBarang.getSelectedRow();
+        Double totalHargaLama = (Double) tblBarang.getValueAt(row, 4);
+        Double totalHarga = Double.parseDouble(txtTotalHarga.getText())-totalHargaLama;
+        txtTotalHarga.setText(totalHarga.toString());
         tableModel.removeRow(tblBarang.getSelectedRow());
-//        txtTotalHarga.setText(text);
         for(int i = 0; i < tableModel.getRowCount(); i++){
             tableModel.setValueAt(i+1,1,0);
             no = tableModel.getRowCount()+1;
@@ -306,6 +310,7 @@ public class PenjualanUI extends javax.swing.JFrame {
         }
         
         JOptionPane.showMessageDialog(null,message);
+        txtTotalHarga.setText("0");
         tableModel.setRowCount(0);
     }//GEN-LAST:event_simpanPenjualan
 
@@ -371,7 +376,7 @@ public class PenjualanUI extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
-    private java.awt.Label label1;
+    private java.awt.Label labelHeader;
     private javax.swing.JTable tblBarang;
     private javax.swing.JLabel txtHarga;
     private javax.swing.JTextField txtQty;
