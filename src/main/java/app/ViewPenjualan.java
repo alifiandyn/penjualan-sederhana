@@ -5,6 +5,7 @@
  */
 package app;
 
+import java.util.List;
 import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
@@ -18,6 +19,7 @@ import javax.swing.table.DefaultTableModel;
 public class ViewPenjualan extends javax.swing.JFrame {
     private DefaultTableModel tableModel = new DefaultTableModel();
     private Integer no = 1;
+    
     /**
      * Creates new form PenjualanUI
      */
@@ -25,19 +27,37 @@ public class ViewPenjualan extends javax.swing.JFrame {
         initComponents();
         initUi();
     }
-
-    private void initUi(){
-        txtHarga.setText("0"); // Set jumlah barang menjadi 0
-        
+    
+    public void initBtnSimpan(java.awt.event.ActionListener Listener){
+        btnSimpan.addActionListener(Listener);
+    }
+    
+    public void initComboBox(List<ModelBarang> listBarang){
         DefaultComboBoxModel model = new DefaultComboBoxModel(); // Init combo box
         cbBarang.setModel(model);
-        
-        model.addElement(new ModelBarang("Beras","kg",200.0));
-        model.addElement(new ModelBarang("Gula","kg",150.0));
-        model.addElement(new ModelBarang("Indomie","pcs",2.0));
-        
-//        DefaultTableModel tableModel = new DefaultTableModel();
-        
+        for(ModelBarang barang : listBarang){
+            model.addElement(barang);
+        }
+    }
+    
+    public String getPenjualan(){
+        // TODO add your handling code here:
+        String message = "";
+        for (int i =0;i<tableModel.getRowCount();i++){
+            for(int j = 0;j<=4;j++){
+                if(j<4){
+                    message += (tableModel.getValueAt(i,j)+",");
+                }else{
+                    message += (tableModel.getValueAt(i,j)+"\n");
+                }
+            }
+        }
+        txtTotalHarga.setText("0");
+        return message;
+    }
+
+    private void initUi(){
+        txtHarga.setText("0"); // Set jumlah barang menjadi 0       
         tableModel.addColumn("No");
         tableModel.addColumn("Nama");
         tableModel.addColumn("Harga");
@@ -72,7 +92,7 @@ public class ViewPenjualan extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         tblBarang = new javax.swing.JTable();
         labelHeader = new java.awt.Label();
-        button1 = new java.awt.Button();
+        btnSimpan = new java.awt.Button();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -166,7 +186,7 @@ public class ViewPenjualan extends javax.swing.JFrame {
                         .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(txtHarga, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -195,13 +215,13 @@ public class ViewPenjualan extends javax.swing.JFrame {
 
         tblBarang.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Title 1", "Title 2", "Title 3", "Title 4", "Title 5"
             }
         ));
         jScrollPane2.setViewportView(tblBarang);
@@ -209,12 +229,7 @@ public class ViewPenjualan extends javax.swing.JFrame {
         labelHeader.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
         labelHeader.setText("Penjualan Barang Dagang");
 
-        button1.setLabel("Simpan Penjualan");
-        button1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                simpanPenjualan(evt);
-            }
-        });
+        btnSimpan.setLabel("Simpan Penjualan");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -222,17 +237,14 @@ public class ViewPenjualan extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(141, 141, 141)
-                .addComponent(labelHeader, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(labelHeader, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(152, 152, 152))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(button1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnSimpan, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -245,7 +257,7 @@ public class ViewPenjualan extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnSimpan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -295,76 +307,9 @@ public class ViewPenjualan extends javax.swing.JFrame {
         cbBarang.setSelectedIndex(0);
     }//GEN-LAST:event_masukanBarang
 
-    private void simpanPenjualan(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_simpanPenjualan
-        // TODO add your handling code here:
-        String message = "";
-        
-        for (int i =0;i<tableModel.getRowCount();i++){
-            for(int j = 0;j<=4;j++){
-                if(j<4){
-                    message += (tableModel.getValueAt(i,j)+",");
-                }else{
-                    message += (tableModel.getValueAt(i,j)+"\n");
-                }
-            }
-        }
-        
-        JOptionPane.showMessageDialog(null,message);
-        txtTotalHarga.setText("0");
-        tableModel.setRowCount(0);
-    }//GEN-LAST:event_simpanPenjualan
-
-    /**
-     * @param args the command line arguments
-     */
-//    public static void main(String args[]) {
-//        /* Set the Nimbus look and feel */
-//        try{
-//        for(javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()){
-//            if("Nimbus".equals(info.getName())){
-//                javax.swing.UIManager.setLookAndFeel(info.getClassName());
-//            }
-//        }
-//        }catch(ClassNotFoundException ex){
-//            java.util.logging.Logger.getLogger(PenjualanUI.class.getName()).log(java.util.logging.Level.SEVERE,null,ex);
-//        }catch(InstantiationException ex){
-//            java.util.logging.Logger.getLogger(PenjualanUI.class.getName()).log(java.util.logging.Level.SEVERE,null,ex);
-//        }catch(IllegalAccessException ex){
-//            java.util.logging.Logger.getLogger(PenjualanUI.class.getName()).log(java.util.logging.Level.SEVERE,null,ex);
-//        }catch(javax.swing.UnsupportedLookAndFeelException ex){
-//            java.util.logging.Logger.getLogger(PenjualanUI.class.getName()).log(java.util.logging.Level.SEVERE,null,ex);
-//        }//<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-//         */
-//        try {
-//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-//                if ("Nimbus".equals(info.getName())) {
-//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-//                    break;
-//                }
-//            }
-//        } catch (ClassNotFoundException ex) {
-//            java.util.logging.Logger.getLogger(PenjualanUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (InstantiationException ex) {
-//            java.util.logging.Logger.getLogger(PenjualanUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (IllegalAccessException ex) {
-//            java.util.logging.Logger.getLogger(PenjualanUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-//            java.util.logging.Logger.getLogger(PenjualanUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        }
-//        //</editor-fold>
-//
-//        /* Create and display the form */
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                new PenjualanUI().setVisible(true);
-//            }
-//        });
-//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private java.awt.Button button1;
+    private java.awt.Button btnSimpan;
     private javax.swing.JComboBox<String> cbBarang;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
